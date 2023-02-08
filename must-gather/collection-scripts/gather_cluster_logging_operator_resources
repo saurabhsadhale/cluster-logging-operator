@@ -61,6 +61,7 @@ for r in "secret/elasticsearch" "configmap/collector" ; do
   fi
 done
 
+# LokiStack resource gathering. if the condition is true only then loki directory will be created. 
 data="$(oc -n $NAMESPACE get lokistack --ignore-not-found -o yaml)"
   if [ "$data" != "" ] ; then
     log "Gathering Loki resources"
