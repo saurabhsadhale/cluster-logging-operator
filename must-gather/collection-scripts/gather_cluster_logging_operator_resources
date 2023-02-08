@@ -61,10 +61,9 @@ for r in "secret/elasticsearch" "configmap/collector" ; do
   fi
 done
 
-log "Gathering Loki resources"
-
 data="$(oc -n $NAMESPACE get lokistack --ignore-not-found -o yaml)"
   if [ "$data" != "" ] ; then
+    log "Gathering Loki resources"
     mkdir -p "$loki_folder"
     echo "${data}" > "${loki_folder}/lokistack_instance.yaml"
   fi
