@@ -58,4 +58,13 @@ for r in "secret/elasticsearch" "configmap/collector" ; do
     oc -n $NAMESPACE extract $r --to=${clo_folder} --cache-dir=${KUBECACHEDIR}
   fi
 done
+
+log "Gathering Loki resources"
+mkdir -p "$loki_folder"
+
+data="$(oc -n $NAMESPACE get lokistack --ignore-not-found -o yaml)"
+  if [ "$data" != "" ] ; then
+    echo "${data}" > "${loki_folder}/lokistack_instance.yaml"
+  fi
+
 log "END gather_cluster_logging_operator_resources ..."
