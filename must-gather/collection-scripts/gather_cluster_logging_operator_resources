@@ -16,6 +16,8 @@ fi
 CLO_COLLECTION_PATH="$BASE_COLLECTION_PATH/cluster-logging"
 clo_folder="$CLO_COLLECTION_PATH/clo"
 
+loki_folder="$CLO_COLLECTION_PATH/loki"
+
 log "Gathering data for cluster-logging-operator"
 mkdir -p "$clo_folder"
 
@@ -60,11 +62,12 @@ for r in "secret/elasticsearch" "configmap/collector" ; do
 done
 
 log "Gathering Loki resources"
-mkdir -p "$loki_folder"
 
 data="$(oc -n $NAMESPACE get lokistack --ignore-not-found -o yaml)"
   if [ "$data" != "" ] ; then
+    mkdir -p "$loki_folder"
     echo "${data}" > "${loki_folder}/lokistack_instance.yaml"
   fi
+
 
 log "END gather_cluster_logging_operator_resources ..."
